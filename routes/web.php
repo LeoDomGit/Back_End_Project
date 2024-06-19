@@ -6,3 +6,7 @@ use Inertia\Inertia;
 Route::get('/', function () {
     return Inertia::render('welcome/Welcome');
 });
+
+Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web']], function () {
+     \UniSharp\LaravelFilemanager\Lfm::routes();
+ });
