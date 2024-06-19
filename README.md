@@ -64,3 +64,15 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+## Cách cài đặt dự án laravel vite 
+    Phía Backend :
+    + Chạy lệnh composer install để tải những packages mặc đinh
+    + Chạy lệnh composer update để update packages
+    Phía frontend
+    + Chạy lệnh npm install để tải node_modules cần thiết
+
+## Cách chạy dự án
+    + Chạy lệnh : php artisan serv để chạy backend
+    + Chạy lệnh : npm start để khởi chạy front end
+
