@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "023dd207848d5585dc1fc63973a4f5a1",
+    "content-hash": "131efe96887b3c25781fdf1d5b5b1ac8",
     "packages": [
         {
             "name": "brick/math",
@@ -2300,7 +2300,7 @@
         },
         {
             "name": "leo/roles",
-            "version": "dev-Roles",
+            "version": "dev-main",
             "dist": {
                 "type": "path",
                 "url": "./packages/roles",

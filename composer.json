@@ -73,9 +73,9 @@
             "merge-scripts": true
         },
         "installer-paths": {
-         "./plugins/role": [
-                "leo/role"
-             ]
+         "./plugins/roles": [
+                "leo/roles"
+         ]
         }
     },
     "config": {
