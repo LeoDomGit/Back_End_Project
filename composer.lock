@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f1722597697bb59242022ab78cbbe9db",
+    "content-hash": "023dd207848d5585dc1fc63973a4f5a1",
     "packages": [
         {
             "name": "brick/math",
@@ -2297,6 +2297,49 @@
                 }
             ],
             "time": "2024-01-28T23:22:08+00:00"
+        },
+        {
+            "name": "leo/roles",
+            "version": "dev-Roles",
+            "dist": {
+                "type": "path",
+                "url": "./packages/roles",
+                "reference": "42616ea55c7b47bff515e805103d6e3e4d1dc588"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Leo\\Roles\\Providers\\RolesServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Leo\\Roles\\": "src/",
+                    "Leo\\Roles\\Providers\\": "src/Providers/",
+                    "Leo\\Roles\\Database\\Migrations\\": "database/migrations/",
+                    "Leo\\Roles\\Database\\Seeders\\": "database/seeders/"
+                },
+                "classmap": [
+                    "src/Controllers",
+                    "src/Providers",
+                    "src/Models",
+                    "./routes"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dom",
+                    "email": "leodomsolar@gmail.com"
+                }
+            ],
+            "transport-options": {
+                "relative": true
+            }
         },
         {
             "name": "maatwebsite/excel",

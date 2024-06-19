@@ -9,11 +9,26 @@ class ComposerStaticInit30ea5f577de9165a54096179f57a98f5
     public static $prefixLengthsPsr4 = array (
         'L' => 
         array (
+            'Leo\\Roles\\Providers\\' => 20,
+            'Leo\\Roles\\Database\\Seeders\\' => 27,
+            'Leo\\Roles\\Database\\Migrations\\' => 30,
             'Leo\\Roles\\' => 10,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
+        'Leo\\Roles\\Providers\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src/Providers',
+        ),
+        'Leo\\Roles\\Database\\Seeders\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/database/seeders',
+        ),
+        'Leo\\Roles\\Database\\Migrations\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/database/migrations',
+        ),
         'Leo\\Roles\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src',
@@ -22,6 +37,9 @@ class ComposerStaticInit30ea5f577de9165a54096179f57a98f5
 
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
+        'Leo\\Role\\Providers\\RolesServiceProvider' => __DIR__ . '/../..' . '/src/Providers/RolesServiceProvider.php',
+        'Leo\\Roles\\Controllers\\RolesController' => __DIR__ . '/../..' . '/src/Controllers/RolesController.php',
+        'Leo\\Roles\\Models\\Roles' => __DIR__ . '/../..' . '/src/Models/Roles.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

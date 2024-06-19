@@ -3,8 +3,24 @@
     "type": "library",
     "license": "MIT",
     "autoload": {
-        "psr-4": {
-            "Leo\\Roles\\": "src/"
+       "psr-4": {
+            "Leo\\Roles\\": "src/",
+            "Leo\\Roles\\Providers\\":"src/Providers/",
+            "Leo\\Roles\\Database\\Migrations\\":"database/migrations/",
+            "Leo\\Roles\\Database\\Seeders\\":"database/seeders/"
+        },
+        "classmap": [
+            "src/Controllers",
+            "src/Providers",
+            "src/Models",
+            "./routes"
+        ]
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Leo\\Roles\\Providers\\RolesServiceProvider"
+            ]
         }
     },
     "authors": [
@@ -13,6 +29,12 @@
             "email": "leodomsolar@gmail.com"
         }
     ],
+   "repositories": [],
+    "config": {
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "optimize-autoloader": true
+    },
     "minimum-stability": "dev",
-    "require": {}
+    "prefer-stable": true
 }
