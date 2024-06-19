@@ -7,4 +7,7 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
+    'Leo\\Role\\Providers\\RolesServiceProvider' => $baseDir . '/src/Providers/RolesServiceProvider.php',
+    'Leo\\Roles\\Controllers\\RolesController' => $baseDir . '/src/Controllers/RolesController.php',
+    'Leo\\Roles\\Models\\Roles' => $baseDir . '/src/Models/Roles.php',
 );

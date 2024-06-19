@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Leo\Roles\Controllers;
 
+use App\Http\Controllers\Controller;
 use App\Models\Roles;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\DB;
 class RolesController extends Controller
 {
     /**
