@@ -15,11 +15,12 @@
         "laravel/framework": "^11.00",
         "laravel/sanctum": "*",
         "laravel/tinker": "*",
+        "leo/roles": "*",
         "maatwebsite/excel": "*",
-        "leo/roles":"*",
         "mnsami/composer-custom-directory-installer": "*",
         "spatie/laravel-permission": "^6.7",
         "tymon/jwt-auth": "^2.1",
+        "unisharp/laravel-filemanager": "^2.9",
         "wikimedia/composer-merge-plugin": "*"
     },
     "require-dev": {

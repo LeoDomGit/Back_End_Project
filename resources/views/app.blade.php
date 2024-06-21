@@ -7,12 +7,12 @@
         @viteReactRefresh
         @vite(['resources/css/app.css', 'resources/js/app.jsx'])
         @inertiaHead
-        <meta name="csrf-token" content="{{ csrf_token() }}"> <!-- Add CSRF token meta tag -->
+        <meta name="csrf-token" content="{{ csrf_token() }}"> 
+        <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
     </head>
     <body>
         @inertia
         <script>
-             import axios from 'axios';
             const csrfToken = document.head.querySelector('meta[name="csrf-token"]').content;
             axios.defaults.headers.common['X-CSRF-TOKEN'] = csrfToken;
         </script>

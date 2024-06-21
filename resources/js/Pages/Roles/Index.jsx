@@ -165,7 +165,7 @@ function Index({ roles }) {
           </div>
         </nav>
         <div className="row">
-          <div className="col-md">
+          <div className="col-md-5">
             {data && data.length > 0 && (
               <Box sx={{ height: 400, width: '100%' }}>
                 <DataGrid
