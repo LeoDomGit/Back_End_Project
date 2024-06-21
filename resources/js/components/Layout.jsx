@@ -30,7 +30,7 @@ function Layout({ children }) {
             </MenuItem>
 
            <a href={'/roles'}> <MenuItem icon={<HomeOutlinedIcon />}>Loại tài khoản</MenuItem></a>
-            <MenuItem icon={<PeopleOutlinedIcon />}>Team</MenuItem>
+           <a href={'/categories'}> <MenuItem icon={<HomeOutlinedIcon />}>Loại sản phẩm</MenuItem></a>
             <MenuItem icon={<ContactsOutlinedIcon />}>Contacts</MenuItem>
             <MenuItem icon={<ReceiptOutlinedIcon />}>Profile</MenuItem>
             <MenuItem icon={<HelpOutlineOutlinedIcon />}>FAQ</MenuItem>

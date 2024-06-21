@@ -16,6 +16,7 @@
         "laravel/sanctum": "*",
         "laravel/tinker": "*",
         "leo/roles": "*",
+        "leo/categories":"*",
         "maatwebsite/excel": "*",
         "mnsami/composer-custom-directory-installer": "*",
         "spatie/laravel-permission": "^6.7",
@@ -76,6 +77,9 @@
         "installer-paths": {
          "./plugins/roles": [
                 "leo/roles"
+         ],
+         "./plugins/categories": [
+                "leo/categories"
          ]
         }
     },
@@ -97,6 +101,10 @@
         {
             "type": "path",
             "url": "./packages/roles/"
+        },
+        {
+            "type": "path",
+            "url": "./packages/categories/"
         }
     ]
 }

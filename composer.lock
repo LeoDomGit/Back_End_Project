@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "259bdc68b02dc26fbdbe8c1834ff5bfe",
+    "content-hash": "5c25dc16f7f0def7d4c12f87fad32443",
     "packages": [
         {
             "name": "brick/math",
@@ -2293,8 +2293,56 @@
             "time": "2024-01-28T23:22:08+00:00"
         },
         {
+            "name": "leo/categories",
+            "version": "dev-CKEditor",
+            "dist": {
+                "type": "path",
+                "url": "./packages/categories",
+                "reference": "2bc7148f00b8ec57f2cc16da6f21b5054daaa9c0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Leo\\Categories\\Providers\\CategoriesServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Leo\\Categories\\": "src/",
+                    "Leo\\Categories\\Providers\\": "src/Providers/",
+                    "Leo\\Categories\\Database\\Migrations\\": "database/migrations/",
+                    "Leo\\Categories\\Database\\Seeders\\": "database/seeders/"
+                },
+                "classmap": [
+                    "src/Controllers",
+                    "src/Providers",
+                    "src/Models",
+                    "./routes"
+                ]
+            },
+            "scripts": {
+                "post-update-cmd": [
+                    "@php artisan migrate"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dom",
+                    "email": "leodomsolar@gmail.com"
+                }
+            ],
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
             "name": "leo/roles",
-            "version": "dev-Roles_Packages_editor",
+            "version": "dev-CKEditor",
             "dist": {
                 "type": "path",
                 "url": "./packages/roles",
