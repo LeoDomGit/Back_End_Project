@@ -14,7 +14,6 @@
         @inertia
         <script>
             const csrfToken = document.head.querySelector('meta[name="csrf-token"]').content;
-            axios.defaults.headers.common['X-CSRF-TOKEN'] = csrfToken;
         </script>
     </body>
 </html>

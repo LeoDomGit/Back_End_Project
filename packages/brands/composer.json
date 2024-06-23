@@ -1,0 +1,45 @@
+{
+    "name": "leo/brands",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+       "psr-4": {
+            "Leo\\Brands\\": "src/",
+            "Leo\\Brands\\Providers\\":"src/Providers/",
+            "Leo\\Brands\\Database\\Migrations\\":"database/migrations/",
+            "Leo\\Brands\\Database\\Seeders\\":"database/seeders/"
+        },
+        "classmap": [
+            "src/Controllers",
+            "src/Providers",
+            "src/Models",
+            "./routes"
+        ]
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Leo\\Brands\\Providers\\BrandsServiceProvider"
+            ]
+        }
+    },
+    "scripts": {
+        "post-update-cmd": [
+            "@php artisan migrate"
+        ]
+    },
+    "authors": [
+        {
+            "name": "Dom",
+            "email": "leodomsolar@gmail.com"
+        }
+    ],
+   "repositories": [],
+    "config": {
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "optimize-autoloader": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 
-const CKEditor = ({ onChange, value }) => {
+const CKEditor = ({ onBlur, value }) => {
+    const editorRef = useRef(null);
+
     useEffect(() => {
-        // Check if CKEDITOR is available
         if (window.CKEDITOR) {
             const options = {
                 filebrowserImageBrowseUrl: '/laravel-filemanager?type=Images',
@@ -11,32 +12,35 @@ const CKEditor = ({ onChange, value }) => {
                 filebrowserUploadUrl: '/laravel-filemanager/upload?type=Files&_token='
             };
 
-            const ckeditor = window.CKEDITOR.replace('editor', options);
-            ckeditor.config.height = 300;
+            editorRef.current = window.CKEDITOR.replace('editor', options);
+            editorRef.current.config.height = 300;
 
             // Set initial value
-            ckeditor.setData(value);
+            editorRef.current.setData(value);
 
             // Handle change events
-            ckeditor.on('change', () => {
-                const data = ckeditor.getData();
-                if (onChange) {
-                    onChange(data);
+            editorRef.current.on('blur', () => {
+                const data = editorRef.current.getData();
+                if (onBlur) {
+                    onBlur(data);
                 }
             });
         }
 
-        // Cleanup function to destroy CKEditor instance on unmount
         return () => {
             if (window.CKEDITOR.instances.editor) {
                 window.CKEDITOR.instances.editor.destroy(true);
             }
         };
-    }, [onChange, value]);
+    }, [onBlur, value]);
 
-    return (
-        <textarea id="editor"></textarea>
-    );
+    useEffect(() => {
+        if (editorRef.current && editorRef.current.getData() !== value) {
+            editorRef.current.setData(value);
+        }
+    }, [value]);
+
+    return <textarea id="editor"></textarea>;
 };
 
 export default CKEditor;
