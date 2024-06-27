@@ -96,15 +96,20 @@ class SlidesController
     /**
      * Update the specified resource in storage.
      */
-    public function api_index(){
-        $result = Slides::active()->get();
-        return response()->json($result);
-    }
+    // public function update(Request $request, Slides $slides,$id)
+    // {
+    //     $validator = Validator::make($request->all(), [
+    //         'name' => 'unique:products,name',
+    //         'desktop' => 'image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+    //         'mobile' => 'image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+    //     ]);
+    //     if ($validator->fails()) {
+    //         return response()->json(['check' => false, 'msg' => $validator->errors()->first()]);
+    //     }
+    //     if ($request->hasFile('desktop')) {
 
-    public function api_single($slug){
-        $result = Slides::active()->where('slug',$slug)->get();
-        return response()->json($result);
-    }
+    //     }
+    // }
 
     public function update(Request $request,$id)
     {
@@ -167,6 +172,15 @@ class SlidesController
 
         $slides = Slides::all();
         return response()->json(['check' => true, 'data' => $slides]);
+    }
+    public function api_index(){
+        $result = Slides::active()->get();
+        return response()->json($result);
+    }
+
+    public function api_single($slug){
+        $result = Slides::active()->where('slug',$slug)->get();
+        return response()->json($result);
     }
     
 }

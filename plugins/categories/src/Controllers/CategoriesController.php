@@ -39,7 +39,7 @@ class CategoriesController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|unique:categories,name',
-            'id_parent'=>'exists:categories,id'
+          
         ], [
             'name.required' => 'Chưa nhận được loại tài khoản',
             'name.unique' => 'Loại tài khoản bị trùng',
@@ -77,7 +77,7 @@ class CategoriesController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'unique:categories,name',
-            'id_parent'=>'exists:categories,id'
+          
         ], [
             'name.required' => 'Chưa nhận được loại tài khoản',
             'name.unique' => 'Loại tài khoản bị trùng',

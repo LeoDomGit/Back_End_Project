@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Leo\Categories\Controllers\CategoriesController;
 use App\Http\Middleware\CheckLogin;
-Route::middleware(['web', CheckLogin::class])->group(function () {
+Route::middleware(['web',CheckLogin::class])->group(function () {
     Route::resource('categories', CategoriesController::class);
 });
 

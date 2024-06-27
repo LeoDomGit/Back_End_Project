@@ -10,7 +10,7 @@ class Categories extends Model
 {
     use HasFactory;
     protected $table='categories';
-    protected $fillable=['id','name','slug','id_parent','status','created_at','updated_at'];
+    protected $fillable=['id','name','slug','status','created_at','updated_at'];
     
     public function scopeActive($query)
     {

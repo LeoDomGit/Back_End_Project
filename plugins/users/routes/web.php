@@ -1,9 +1,8 @@
 <?php
 
-// use App\Http\Middleware\JWT;
+use App\Http\Middleware\CheckLogin;
 use Illuminate\Support\Facades\Route;
 use Leo\Users\Controllers\UserController;
-use App\Http\Middleware\CheckLogin;
 
 // Route::prefix('/api/users')->name('users.')->group(function () {
 //     Route::get('/', [UserController::class, 'index'])->name('users.index');
@@ -15,12 +14,11 @@ use App\Http\Middleware\CheckLogin;
 //     Route::put('/switch/{id}', [UserController::class, 'switchUser'])->name('users.switch');
 //     Route::delete('/{id}', [UserController::class, 'destroy'])->name('users.destroy');
 // });
-Route::middleware(['web',CheckLogin::class])->group(function () {
-    Route::resource('users', UserController::class);
+Route::group(['middleware' => ['web']], function () {
+    Route::get('/', [UserController::class,'login'])->name('login');
+    Route::post('/users/checkLogin',[UserController::class,'checkLogin']);
+    Route::resource('users', UserController::class)->middleware(CheckLogin::class);
+    Route::get('/logout', [UserController::class,'logout'])->middleware(CheckLogin::class);
 });
-Route::get('/', [UserController::class,'login'])->middleware('web');
-Route::post('/users/checkLogin',[UserController::class,'checkLogin']);
-Route::put('/users/switch/{id}', [UserController::class,'switchUser'])->middleware('auth:admin');
-
-
+Route::put('/users/switch/{id}', [UserController::class,'switchUser']);
 

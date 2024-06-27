@@ -18,7 +18,7 @@ use App\Http\Middleware\CheckLogin;
 Route::middleware(['web',CheckLogin::class])->group(function () {
     Route::resource('users', UserController::class);
 });
-Route::get('/', [UserController::class,'login'])->middleware('web');
+Route::get('/', [UserController::class,'login']);
 Route::post('/users/checkLogin',[UserController::class,'checkLogin']);
 Route::put('/users/switch/{id}', [UserController::class,'switchUser'])->middleware('auth:admin');
 
