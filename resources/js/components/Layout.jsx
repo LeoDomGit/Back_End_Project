@@ -12,6 +12,7 @@ import GroupIcon from '@mui/icons-material/Group';
 import CategoryIcon from '@mui/icons-material/Category';
 import BrandingWatermarkIcon from '@mui/icons-material/BrandingWatermark';
 import InventoryIcon from '@mui/icons-material/Inventory';
+import LogoutIcon from '@mui/icons-material/Logout';
 import "../../css/app.css";
 function Layout({ children }) {
   const { collapseSidebar } = useProSidebar();
@@ -44,9 +45,9 @@ function Layout({ children }) {
             </SubMenu>
            <a href={'/slides'}> <MenuItem icon={<GroupIcon />}>Slides</MenuItem></a>
             
-            <MenuItem icon={<ReceiptOutlinedIcon />}>Profile</MenuItem>
-            <MenuItem icon={<HelpOutlineOutlinedIcon />}>FAQ</MenuItem>
-            <MenuItem icon={<CalendarTodayOutlinedIcon />}>Calendar</MenuItem>
+            <a href="/"><MenuItem icon={<LogoutIcon />}>Logout</MenuItem></a>
+            {/* <MenuItem icon={<HelpOutlineOutlinedIcon />}>FAQ</MenuItem>
+            <MenuItem icon={<CalendarTodayOutlinedIcon />}>Calendar</MenuItem> */}
           </Menu>
         </Sidebar>
         <main className='p-4 w-100'>

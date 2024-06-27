@@ -11,16 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('slides', function (Blueprint $table) {
-            $table->id();
-            $table->string('name',255);
-            $table->string('slug',255);
-            $table->string('url',255)->nullable();
-            $table->boolean('status')->default(0);
-            $table->string('desktop',255);
-            $table->string('mobile',255);
-            $table->timestamps();
-        });
+        if (!Schema::hasTable('slides')) {
+            Schema::create('slides', function (Blueprint $table) {
+                $table->id();
+                $table->string('name',255);
+                $table->string('slug',255);
+                $table->string('url',255)->nullable();
+                $table->boolean('status')->default(0);
+                $table->string('desktop',255);
+                $table->string('mobile',255);
+                $table->timestamps();
+            });
+        }
+
     }
 
     /**

@@ -149,7 +149,20 @@ function Products({ dataproducts, databrands, datacategories }) {
             editable: true,
             valueFormatter: formatDiscount,
         },
-
+        {
+            field: "brandName",
+            headerName: "Thương hiệu",
+            sortable: false,
+            width: 200,
+            renderCell: (params) => (params.row.brands.name),
+        },
+        {
+            field:"cateName",
+            headerName: "Loại sản phẩm",
+            sortable: false,
+            width: 200,
+            renderCell: (params) => (params.row.categories.name),
+        },
         {
             field: "created_at",
             headerName: "Created at",

@@ -3,13 +3,14 @@ import Layout from '../../components/Layout'
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { Notyf } from 'notyf';
-import { Box, Typography } from "@mui/material";
+import { Box, Switch, Typography } from "@mui/material";
 import { DataGrid } from '@mui/x-data-grid';
 import 'notyf/notyf.min.css';
 import Swal from 'sweetalert2'
 import axios from 'axios';
 function Index({ categories }) {
   const [category, setCategory] = useState('');
+  const [id_parent, setIdParent] = useState(null);
   const [data, setData] = useState(categories)
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
@@ -19,6 +20,21 @@ function Index({ categories }) {
   const formatCreatedAt = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleString(); 
+};
+
+const renderParentSelect = (params) => {
+  return (
+    <select
+      value={params.value || ''}
+      className='form-control mt-2'
+      onChange={(e) => handleCellEditStop(params.id, 'id_parent', e.target.value)}
+    >
+      <option value=''>None</option>
+      {categories.map(category => (
+        <option key={category.id} value={category.id}>{category.name}</option>
+      ))}
+    </select>
+  );
 };
   const notyf = new Notyf({
     duration: 1000,
@@ -65,11 +81,58 @@ function Index({ categories }) {
     { field: 'name', headerName: "Loại tài sản phẩm", width: 200, editable: true },
     { field: 'slug', headerName: "Slug", width: 200, editable: false },
     {
+      field: 'id_parent', headerName: "Parent", width: 200, renderCell: renderParentSelect
+    },
+    {
+      field: "status",
+      headerName: "Status",
+      width: 70,
+      renderCell: (params) => (
+        <Switch
+          checked={params.value == 1}
+          onChange={(e) => switchCate(params, e.target.checked ? 1 : 0)}
+          inputProps={{ "aria-label": "controlled" }}
+        />
+      ),
+    },
+    {
       field: 'created_at', headerName: 'Created at', width: 200, valueGetter: (params) => formatCreatedAt(params)
     }
   ];
+  const switchCate = (params, value) => {
+    var id = params.id;
+    var field = params.field;
+    axios
+      .put(
+        `/categories/${id}`,
+        {
+          [field]: value,
+        }
+        // {
+        //     headers: {
+        //         Authorization: `Bearer ${localStorage.getItem("token")}`,
+        //         Accept: "application/json",
+        //     },
+        // }
+      )
+      .then((res) => {
+        if (res.data.check == true) {
+          notyf.open({
+            type: "success",
+            message: "Chỉnh sửa thương hiệu sản phẩm thành công",
+          });
+          setData(res.data.data);
+        } else if (res.data.check == false) {
+          notyf.open({
+            type: "error",
+            message: res.data.msg,
+          });
+        }
+      });
+  };
   const submitCategory = () => {
     axios.post('/categories', {
+      id_parent:id_parent,
       name: category
     }).then((res) => {
       if (res.data.check == true) {
@@ -97,9 +160,7 @@ function Index({ categories }) {
         axios
         .put(
           `/categories/${id}`,
-          {
-            name: value,
-          },
+          { [field]: value },
           // {
           //     headers: {
           //         Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -123,44 +184,74 @@ function Index({ categories }) {
           }
         });
     }else{
+      if(field!="id_parent"){
         Swal.fire({
-            icon:'question',
-            text: "Xoá loại sản phẩm này ?",
-            showDenyButton: true,
-            showCancelButton: false,
-            confirmButtonText: "Đúng",
-            denyButtonText: `Không`
-          }).then((result) => {
-            /* Read more about isConfirmed, isDenied below */
-            if (result.isConfirmed) {
-                axios
-                .delete(
-                  `/categories/${id}`,
-                  // {
-                  //     headers: {
-                  //         Authorization: `Bearer ${localStorage.getItem("token")}`,
-                  //         Accept: "application/json",
-                  //     },
-                  // }
-                )
-                .then((res) => {
-                  if (res.data.check == true) {
-                    notyf.open({
-                      type: "success",
-                      message: "Xoá loại sản phẩm thành công",
-                    });
-                    setData(res.data.data);
-          
-                  } else if (res.data.check == false) {
-                    notyf.open({
-                      type: "error",
-                      message: res.data.msg,
-                    });
-                  }
-                });
-            } else if (result.isDenied) {
-            }
-          });
+          icon:'question',
+          text: "Xoá loại sản phẩm này ?",
+          showDenyButton: true,
+          showCancelButton: false,
+          confirmButtonText: "Đúng",
+          denyButtonText: `Không`
+        }).then((result) => {
+          /* Read more about isConfirmed, isDenied below */
+          if (result.isConfirmed) {
+              axios
+              .delete(
+                `/categories/${id}`,
+                // {
+                //     headers: {
+                //         Authorization: `Bearer ${localStorage.getItem("token")}`,
+                //         Accept: "application/json",
+                //     },
+                // }
+              )
+              .then((res) => {
+                if (res.data.check == true) {
+                  notyf.open({
+                    type: "success",
+                    message: "Xoá loại sản phẩm thành công",
+                  });
+                  setData(res.data.data);
+        
+                } else if (res.data.check == false) {
+                  notyf.open({
+                    type: "error",
+                    message: res.data.msg,
+                  });
+                }
+              });
+          } else if (result.isDenied) {
+          }
+        });
+      }else{
+        axios
+        .put(
+          `/categories/${id}`,
+          { [field]: value },
+          // {
+          //     headers: {
+          //         Authorization: `Bearer ${localStorage.getItem("token")}`,
+          //         Accept: "application/json",
+          //     },
+          // }
+        )
+        .then((res) => {
+          if (res.data.check == true) {
+            notyf.open({
+              type: "success",
+              message: "Chỉnh sửa loại sản phẩm thành công",
+            });
+            setData(res.data.data);
+  
+          } else if (res.data.check == false) {
+            notyf.open({
+              type: "error",
+              message: res.data.msg,
+            });
+          }
+        });
+      }
+
     }
    
   };
@@ -174,6 +265,13 @@ function Index({ categories }) {
           </Modal.Header>
           <Modal.Body>
             <input type="text" className='form-control' onChange={(e) => setCategory(e.target.value)} />
+            <label htmlFor="">Parents</label>
+            <select name="" id="" onChange={(e)=>setIdParent(e.target.value)} defaultValue={0} className="form-control">
+                <option value="0" disabled>Chọn một loại sản phẩm phụ thuộc </option>
+                {categories.length>0 && categories.map((item,index)=>(
+                  <option value={item.id}>{item.name}</option>
+                ))}
+            </select>
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleClose}>
@@ -209,7 +307,7 @@ function Index({ categories }) {
           </div>
         </nav>
         <div className="row">
-          <div className="col-md-6">
+          <div className="col-md-8">
             {data && data.length > 0 && (
               <Box sx={{ height: 400, width: '100%' }}>
                 <DataGrid

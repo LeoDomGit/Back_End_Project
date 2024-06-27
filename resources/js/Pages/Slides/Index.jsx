@@ -3,9 +3,8 @@ import Layout from '../../components/Layout';
 import axios from 'axios';
 import 'notyf/notyf.min.css';
 import { Notyf } from 'notyf';
-import { Box } from "@mui/material";
 import { DataGrid } from '@mui/x-data-grid';
-
+import { Box, Select, MenuItem } from "@mui/material";
 function Index({ dataSlides }) {
   const [slideName, setSlideName] = useState('');
   const [desktopFile, setDesktopFile] = useState(null);
@@ -126,6 +125,9 @@ function Index({ dataSlides }) {
       if (response.data.check) {
         notyf.open({ type: "success", message: "Đã thêm thành công" });
         setData(response.data.data);
+        setTimeout(() => {
+          window.location.reload()
+        }, 2000);
       } else {
         notyf.open({ type: "error", message: response.data.msg });
       }
@@ -167,11 +169,41 @@ function Index({ dataSlides }) {
         console.error("Error fetching slide:", error);
       });
   };
-
+  const handleStatusChange = (id, newValue) => {
+    axios.put(`/slides/` + id, { status: newValue })
+      .then((res) => {
+        if (res.data.check) {
+          notyf.open({ type: "success", message: "Status updated successfully" });
+          setData(res.data.data);
+        } else {
+          notyf.open({ type: "error", message: res.data.msg });
+        }
+      })
+      .catch((error) => {
+        console.error("Error updating status:", error);
+        notyf.open({ type: "error", message: "An error occurred while updating the status." });
+      });
+  };
   const columns = [
     { field: "id", headerName: "#", width: 100 },
     { field: "name", headerName: "Name", width: 200, editable: true },
     { field: "slug", headerName: "Slug", width: 200, editable: false },
+    {
+      field: "status",
+      headerName: "Status",
+      width: 150,
+      renderCell: (params) => (
+        <Select
+          value={params.row.status}
+          className=''
+          onChange={(e) => handleStatusChange(params.row.id, e.target.value)}
+          style={{ width: '100%' }}
+        >
+          <MenuItem value={0}>Khóa</MenuItem>
+          <MenuItem value={1}>Mở</MenuItem>
+        </Select>
+      ),
+    },
     {
       field: "created_at",
       headerName: "Created at",
@@ -185,7 +217,8 @@ function Index({ dataSlides }) {
       width: 150,
       renderCell: (params) => (
         <>
-          <button className="btn btn-danger" onClick={() => handleDelete(params.row.id)}>Delete</button>
+          <button className="btn btn-sm btn-warning" onClick={() => handleEditClick(params.row.id)}>Edit</button>
+          <button className="btn btn-sm ms-3 btn-danger" onClick={() => handleDelete(params.row.id)}>Delete</button>
         </>
       ),
     },
@@ -206,13 +239,16 @@ function Index({ dataSlides }) {
                     value={slideName}
                     onChange={(e) => setSlideName(e.target.value)}
                   />
+                  {!editMode && (
                   <button
-                    className="btn btn-primary"
-                    type="button"
-                    onClick={editMode ? handleUpdate : handleSubmit}
-                  >
-                    {editMode ? "Update" : "Add"}
-                  </button>
+                  className="btn btn-primary"
+                  type="button"
+                  onClick={editMode ? handleUpdate : handleSubmit}
+                >
+                  {editMode ? "Update" : "Add"}
+                </button>
+                  )}
+
                 </div>
                 <label htmlFor="desktop">Desktop </label>
                 <div className="input-group mb-2">

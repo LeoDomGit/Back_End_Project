@@ -2,8 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 use Leo\Categories\Controllers\CategoriesController;
-
-Route::resource('categories', CategoriesController::class);
+use App\Http\Middleware\CheckLogin;
+Route::middleware(['web', CheckLogin::class])->group(function () {
+    Route::resource('categories', CategoriesController::class);
+});
 
 Route::prefix('api')->group(function () {
     Route::get('/categories',[CategoriesController::class,'api_index']);

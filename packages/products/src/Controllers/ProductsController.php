@@ -66,7 +66,7 @@ class ProductsController extends Controller
 
             $imageName = $file->getClientOriginalName();
 
-            $extractTo = storage_path('app/public/products/' . $id);
+            $extractTo = storage_path('app/public/products/');
 
             $file->move($extractTo, $imageName);
 
@@ -80,7 +80,7 @@ class ProductsController extends Controller
 
             ]);
 
-            $result[] = Storage::url('products/' . $id . '/' . $imageName);
+            $result[] = Storage::url('products/'. $imageName);
 
         }
 
@@ -322,8 +322,6 @@ class ProductsController extends Controller
 
     }
 
-
-
     public function update(Request $request, $identifier)
 
     {
@@ -422,5 +420,73 @@ class ProductsController extends Controller
 
     }
 
+    public function api_product(Request $request){
+        if($request->has('limit')){
+            $result = Products::join('gallery','products.id','=','gallery.id_parent')
+            ->where('products.status',1)            
+            ->where('gallery.status',1)->select('products.*','gallery.image as image')
+                        ->take($request->limit);
+            return response()->json($result);
+    
+        }else{
+            $result = Products::join('gallery','products.id','=','gallery.id_parent')
+            ->where('products.status',1)            
+            ->where('gallery.status',1)->select('products.*','gallery.image as image')
+                        ->paginate(4);
+            return response()->json($result);
+    
+        }
+    }
+    
+    public function api_single_product($slug){
+        $result = Products::with(['brands','categories'])->where('products.slug',$slug)->where('products.status',1)->select('products.*')
+                    ->first();
+        if(!$result){
+            return response()->json([]);
+        }
+        $medias = Gallery::where('id_parent',$result->id)->pluck('image');
+        $cate_products=Products::join('gallery','products.id','=','gallery.id_parent')
+        ->where('products.status',1)
+        ->where('products.idCate',$result->idCate)
+        ->where('gallery.status',1)
+        ->select('products.*','gallery.image as image')
+        ->take(4);
+        $brand_products=Products::join('gallery','products.id','=','gallery.id_parent')
+        ->where('products.status',1)
+        ->where('products.idBrand',$result->idBrand)
+        ->where('gallery.status',1)
+        ->select('products.*','gallery.image as image')
+        ->take(4);
+        $links = $cate_products->union($brand_products)->get();
+        return response()->json(['product'=>$result,'medias'=>$medias,'links'=>$link]);
+    }   
+
+    public function api_load_cart_product(Request $request){
+        $validator = Validator::make($request->all(), [
+            'cart' => 'required|array',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['check' => false, 'msg' => $validator->errors()->first()]);
+        }
+        $arr=[];
+        foreach($request->cart as $item){
+            $item=json_decode($item);
+            $product=Products::join('gallery','products.id','=','gallery.id_parent')->where('gallery.status',1)->where('products.id',$item[0])->select('products.id','gallery.image','slug','name','price','discount')->get();
+            foreach($product as $item1){
+                $item2=[
+                    'id'=> $item1->id,
+                    'name'=>$item1->name,
+                    'slug'=>$item1->slug,
+                    'quantity'=>$item[1],
+                    'discount'=>(int)$item1->discount,
+                    'price'=>(int)$item1->price,
+                    'image'=>$item1->image,
+                    'total'=>(int)$item1->discount*$item[1],
+                ];
+               array_push($arr,$item2);
+            }
+       }
+       return response()->json($arr);
+    }
 }
 

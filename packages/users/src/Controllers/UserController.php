@@ -37,6 +37,12 @@ class UserController
         ]);
     }
 
+    public function login(Request $request){
+        $request->session()->invalidate(); 
+        $request->session()->regenerateToken();
+        return Inertia::render('Login/Signin');
+    }
+
     public function store(StoreRequest $request)
     {
         $data = $request->all();
@@ -94,16 +100,14 @@ class UserController
         if ($validator->fails()) {
             return response()->json(['check'=>false,'msg'=>$validator->errors()->first()]);
         }
-        $credentials = $request->only('email', 'password');
-        $token = Auth::attempt($credentials);
-        if (!$token) {
-            return response()->json([
-                'check' => 'error',
-                'msg' => 'Unauthorized',
-            ], 401);
+        if(Auth::attempt(['name'=>$request->name,'password'=>$request->password,'status'=>1],true)){
+            $user = User::where('email',$request->email)->first();
+            $request->session()->put('user', $user);
+            $request->session()->regenerate();
+            return response()->json(['check'=>true]);
+        }else{
+            return response()->json(['check'=>false,'msg'=>'Tài khoản không hợp lệ']);
         }
-       
-
     }
 
     public function checkLogin2 (Request $request, User $user){
@@ -136,10 +140,7 @@ class UserController
     public function logout()
     {
         Auth::logout();
-        return response()->json([
-            'check' => true,
-            'msg' => 'Successfully logged out',
-        ]);
+        return redirect('/');
     }
     /**
      * Display the specified resource.

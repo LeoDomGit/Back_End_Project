@@ -5,6 +5,7 @@ namespace Leo\Products\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Leo\Brands\Models\Brands;
+use Leo\Carts\Models\Carts;
 use Leo\Categories\Models\Categories;
 
 class Products extends Model
@@ -19,7 +20,7 @@ class Products extends Model
     protected $table='products';
     
     protected $fillable = [
-        'name', 'slug', 'status','content','price','in_stock','discount','idCate','idBrand', 'created_at','updated_at'
+       'id', 'name', 'slug', 'status','content','price','in_stock','discount','idCate','idBrand', 'created_at','updated_at'
     ];
     
     public function categories (){
@@ -37,5 +38,9 @@ class Products extends Model
     public function scopeActive($query)
     {
         return $query->where('status', 1);
+    }
+    public function carts()
+    {
+        return $this->hasMany(Carts::class, 'id_product');
     }
 }
