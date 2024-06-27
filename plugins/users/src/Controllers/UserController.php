@@ -38,8 +38,9 @@ class UserController
     }
 
     public function login(Request $request){
-        $request->session()->forget('user');
-        return Inertia::render('Login/SignIn');
+        $request->session()->invalidate(); 
+        $request->session()->regenerateToken();
+        return Inertia::render('Login/Signin');
     }
 
     public function store(StoreRequest $request)
@@ -93,21 +94,19 @@ class UserController
 
     public function checkLogin (Request $request, User $user){
         $validator = Validator::make($request->all(), [
-            'email' => 'required|email|exists:users,email',
-            'password' => 'required'
+            'email'=>'required|email|exists:users,email',
+            'password'=>'required'
         ]);
-
         if ($validator->fails()) {
-            return response()->json(['check' => false, 'msg' => $validator->errors()->first()]);
+            return response()->json(['check'=>false,'msg'=>$validator->errors()->first()]);
         }
-
-        if (Auth::attempt(['email' => $request->email, 'password' => $request->password, 'status' => 1], true)) {
+        if(Auth::attempt(['name'=>$request->name,'password'=>$request->password,'status'=>1],true)){
             $user = User::where('email',$request->email)->first();
             $request->session()->put('user', $user);
             $request->session()->regenerate();
             return response()->json(['check'=>true]);
-        } else {
-            return response()->json(['check' => false, 'msg' => 'Tài khoản không hợp lệ']);
+        }else{
+            return response()->json(['check'=>false,'msg'=>'Tài khoản không hợp lệ']);
         }
     }
 

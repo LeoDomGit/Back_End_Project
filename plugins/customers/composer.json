@@ -1,0 +1,40 @@
+{
+    "name": "leo/customers",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+       "psr-4": {
+            "Leo\\Customers\\": "src/",
+            "Leo\\Customers\\Providers\\":"src/Providers/",
+            "Leo\\Customers\\Database\\Migrations\\":"database/migrations/",
+            "Leo\\Customers\\Database\\Seeders\\":"database/seeders/"
+        },
+        "classmap": [
+            "src/Controllers",
+            "src/Providers",
+            "src/Models",
+            "./routes"
+        ]
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Leo\\Customers\\Providers\\CustomersServiceProvider"
+            ]
+        }
+    },
+    "authors": [
+        {
+            "name": "Dom",
+            "email": "leodomsolar@gmail.com"
+        }
+    ],
+   "repositories": [],
+    "config": {
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "optimize-autoloader": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

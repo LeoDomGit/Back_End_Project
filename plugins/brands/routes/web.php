@@ -5,7 +5,6 @@ use Leo\Brands\Controllers\BrandsController;
 use App\Http\Middleware\CheckLogin;
 Route::middleware(['web', CheckLogin::class])->group(function () {
     Route::resource('brands', BrandsController::class);
-
 });
 
 Route::prefix('api')->group(function () {

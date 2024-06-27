@@ -1,9 +1,8 @@
 <?php
-use App\Http\Middleware\CheckLogin;
 use Illuminate\Support\Facades\Route;
 use Leo\Slides\Controllers\SlidesController;
-
-Route::middleware(['web',CheckLogin::class])->group(function () {
+use App\Http\Middleware\CheckLogin;
+Route::middleware(['web', CheckLogin::class])->group(function () {
     Route::resource('slides', SlidesController::class);
 });
 
