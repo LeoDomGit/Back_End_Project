@@ -11,15 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('carts', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('id_customer');
-            $table->unsignedBigInteger('id_product');
-            $table->unsignedInteger('quantity');
-            $table->timestamps();
-            $table->foreign('id_customer')->references('id')->on('customers');
-            $table->foreign('id_product')->references('id')->on('products');
-        });
+        if (!Schema::hasTable('carts')) {
+            Schema::create('carts', function (Blueprint $table) {
+                $table->id();
+                $table->unsignedBigInteger('id_product');
+                $table->unsignedInteger('quantity');
+                $table->timestamps();
+                $table->foreign('id_customer')->references('id')->on('customers');
+                $table->foreign('id_product')->references('id')->on('products');
+            });            
+        }
+
     }
 
     /**
