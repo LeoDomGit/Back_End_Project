@@ -1,0 +1,164 @@
+{
+    "name": "laravel/project",
+    "type": "project",
+    "description": "The skeleton application for the Laravel framework.",
+    "keywords": [
+        "laravel",
+        "framework"
+    ],
+    "license": "MIT",
+    "require": {
+        "php": "^8.2",
+        "firebase/php-jwt": "^6.10",
+        "guzzlehttp/guzzle": "^7.2",
+        "inertiajs/inertia-laravel": "^1.3",
+        "laravel/framework": "^11.00",
+        "laravel/sanctum": "^4.0",
+        "laravel/socialite": "^5.15",
+        "laravel/tinker": "*",
+        "leo/brands": "*",
+        "leo/categories": "*",
+        "leo/permissions": "*",
+        "leo/products": "*",
+        "leo/roles": "*",
+        "leo/slides": "*",
+        "leo/users": "*",
+        "leo/customers":"*",
+        "leo/carts":"*",
+        "maatwebsite/excel": "*",
+        "mnsami/composer-custom-directory-installer": "*",
+        "spatie/laravel-permission": "^6.7",
+        "tymon/jwt-auth": "^2.1",
+        "unisharp/laravel-filemanager": "^2.9",
+        "wikimedia/composer-merge-plugin": "*"
+    },
+    "require-dev": {
+        "fakerphp/faker": "*",
+        "laravel/pint": "*",
+        "laravel/sail": "*",
+        "mockery/mockery": "*",
+        "nunomaduro/collision": "*",
+        "phpunit/phpunit": "*",
+        "spatie/laravel-ignition": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/",
+            "Database\\Factories\\": "database/factories/",
+            "Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "post-autoload-dump": [
+            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+            "@php artisan package:discover --ansi"
+        ],
+        "post-root-package-install": [
+            "@/usr/local/bin/php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+        ],
+        "post-create-project-cmd": [
+            "@php artisan key:generate --ansi"
+        ]
+    },
+    "extra": {
+        "laravel": {
+            "dont-discover": []
+        },
+        "merge-plugin": {
+            "include": [
+                "plugins/*/composer.json",
+                "plugins/*/plugins/composer.json",
+                "plugins/*/plugins/*/composer.json",
+                "plugins/*/plugins/*/*/composer.json",
+                "plugins/core/plugins/tightenco/ziggy/composer.json"
+            ],
+            "recurse": true,
+            "merge-extra": true,
+            "merge-extra-deep": true,
+            "merge-scripts": true
+        },
+        "installer-paths": {
+            "./plugins/roles": [
+                "leo/roles"
+            ],
+            "./plugins/categories": [
+                "leo/categories"
+            ],
+            "./plugins/permissions": [
+                "leo/permissions"
+            ],
+            "./plugins/users": [
+                "leo/users"
+            ],
+            "./plugins/brands": [
+                "leo/brands"
+            ],
+            "./plugins/slides": [
+                "leo/slides"
+            ],
+            "./plugins/customers": [
+                "leo/customers"
+            ],
+            "./plugins/carts": [
+                "leo/carts"
+            ]
+        }
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "php-http/discovery": true,
+            "mnsami/composer-custom-directory-installer": true,
+            "wikimedia/composer-merge-plugin": true,
+            "codezero/composer-preload-files": true
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "repositories": [
+        {
+            "type": "path",
+            "url": "./packages/roles/"
+        },
+        {
+            "type": "path",
+            "url": "./packages/categories/"
+        },
+        {
+            "type": "path",
+            "url": "./packages/permissions/"
+        },
+        {
+            "type": "path",
+            "url": "./packages/users/"
+        },
+        {
+            "type": "path",
+            "url": "./packages/brands/"
+        },
+        {
+            "type": "path",
+            "url": "./packages/products/"
+        },
+        {
+            "type": "path",
+            "url": "./packages/slides/"
+        },
+        {
+            "type": "path",
+            "url": "./packages/customers/"
+        },
+        {
+            "type": "path",
+            "url": "./packages/carts/"
+        }
+    ]
+}

@@ -1,0 +1,46 @@
+{
+    "name": "leo/products",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Leo\\Products\\": "src/",
+            "Leo\\Products\\Providers\\":"src/Providers/",
+            "Leo\\Products\\Database\\Migrations\\": "database/migrations/",
+            "Leo\\Products\\Database\\Seeders\\": "database/seeders/"
+        },
+        "classmap": [
+            "src/Controllers",
+            "src/Providers",
+            "src/Models",
+            "./routes"
+        ]
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Leo\\Products\\Providers\\ProductsServiceProvider"
+            ]
+        }
+    },
+    "scripts": {
+        "post-update-cmd": [
+            "@php artisan migrate",
+            "@php artisan vendor:publish --provider='Leo\\Products\\Providers\\ProductsServiceProvider' --tag=migrations"
+        ]
+    },
+    "authors": [
+        {
+            "name": "LeoDomGit",
+            "email": "leodomsolar@gmail.com"
+        }
+    ],
+    "require": {},
+    "config": {
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "optimize-autoloader": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

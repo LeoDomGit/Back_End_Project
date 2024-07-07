@@ -1,0 +1,45 @@
+{
+    "name": "leo/categories",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+       "psr-4": {
+            "Leo\\Categories\\": "src/",
+            "Leo\\Categories\\Providers\\":"src/Providers/",
+            "Leo\\Categories\\Database\\Migrations\\":"database/migrations/",
+            "Leo\\Categories\\Database\\Seeders\\":"database/seeders/"
+        },
+        "classmap": [
+            "src/Controllers",
+            "src/Providers",
+            "src/Models",
+            "./routes"
+        ]
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Leo\\Categories\\Providers\\CategoriesServiceProvider"
+            ]
+        }
+    },
+    "scripts": {
+        "post-update-cmd": [
+            "@php artisan migrate"
+        ]
+    },
+    "authors": [
+        {
+            "name": "Dom",
+            "email": "leodomsolar@gmail.com"
+        }
+    ],
+   "repositories": [],
+    "config": {
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "optimize-autoloader": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

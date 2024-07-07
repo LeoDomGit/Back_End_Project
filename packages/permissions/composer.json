@@ -1,0 +1,40 @@
+{
+    "name": "leo/permissions",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+       "psr-4": {
+            "Leo\\Permissions\\": "src/",
+            "Leo\\Permissions\\Providers\\":"src/Providers/",
+            "Leo\\Permissions\\Database\\Migrations\\":"database/migrations/",
+            "Leo\\Permissions\\Database\\Seeders\\":"database/seeders/"
+        },
+        "classmap": [
+            "src/Controllers",
+            "src/Providers",
+            "src/Models",
+            "./routes"
+        ]
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Leo\\Permissions\\Providers\\PermissionsServiceProvider"
+            ]
+        }
+    },
+    "authors": [
+        {
+            "name": "Dom",
+            "email": "leodomsolar@gmail.com"
+        }
+    ],
+   "repositories": [],
+    "config": {
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "optimize-autoloader": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

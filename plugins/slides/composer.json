@@ -1,0 +1,40 @@
+{
+    "name": "leo/slides",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+       "psr-4": {
+            "Leo\\Slides\\": "src/",
+            "Leo\\Slides\\Providers\\":"src/Providers/",
+            "Leo\\Slides\\Database\\Migrations\\":"database/migrations/",
+            "Leo\\Slides\\Database\\Seeders\\":"database/seeders/"
+        },
+        "classmap": [
+            "src/Controllers",
+            "src/Providers",
+            "src/Models",
+            "./routes"
+        ]
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Leo\\Slides\\Providers\\SlidesServiceProvider"
+            ]
+        }
+    },
+    "authors": [
+        {
+            "name": "Dom",
+            "email": "leodomsolar@gmail.com"
+        }
+    ],
+   "repositories": [],
+    "config": {
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "optimize-autoloader": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
