@@ -4,7 +4,7 @@ import Box from "@mui/material/Box";
 import { DataGrid } from "@mui/x-data-grid";
 import { Row, Col, Form, Button, Modal } from "react-bootstrap";
 
-function Index({ bookings }) {
+function Index({ bookings, users }) {
 	const [data, setData] = useState([]);
 	const [show, setShow] = useState(false);
 

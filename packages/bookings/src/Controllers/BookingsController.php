@@ -16,9 +16,8 @@ class BookingsController extends Controller
     public function index()
     {
         $data = Booking::with('customer', 'service', 'user')->get();
-        $user = User::active()->get();
-        dd($user);
-        return Inertia::render('Bookings/Index', ['bookings' => $data]);
+        $user = User::where('status', 1)->get();
+        return Inertia::render('Bookings/Index', ['bookings' => $data, 'users' => $user]);
     }
 
     /**
