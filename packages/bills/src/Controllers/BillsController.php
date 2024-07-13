@@ -55,14 +55,13 @@ class BillsController extends Controller
         if ($validator->fails()) {
             return response()->json(['check'=>false , 'msg' => $validator->errors()->first()], 200);
         }
-        $data= [];
+        $data=[];
         $data['name']=$request->name;
         $data['email']=$request->email;
         $data['phone']=$request->phone;
         $data['address']=$request->address;
         $id_hoa_don = Bills::insertGetId($data);
         foreach ($request->cart as $key => $item) {
-            $item=json_decode($item);
             Bill_Detail::create(['id_hoa_don'=>$id_hoa_don,'id_product'=>$item[0],'quantity'=>$item[1]]);
         }
         return response()->json(['check'=>true]);
@@ -98,9 +97,14 @@ class BillsController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Bills $bills)
+    public function show(Bills $bills,$id)
     {
-        //
+        $bill = Bills::with('details.product')->find($id);
+        $total = $bill->details->sum(function($detail) {
+            return $detail->quantity * $detail->product->price;
+        });
+       $billList = Bill_Detail::with(['product','product.gallery'])->where('hoa_don_chi_tiet.id_hoa_don',$id)->select()->get();
+       return Inertia::render("Bills/Detail",['total'=>$total,'bill'=>$bill,'billList'=>$billList]); 
     }
 
     /**
@@ -114,9 +118,21 @@ class BillsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Bills $bills)
+    public function update(Request $request, Bills $bills,$id)
     {
-        //
+        $bill= Bills::where('id',$id)->first();
+        if(!$bill){
+            return response()->json(['check'=>false,'msg'=>'Không tìm thấy mã hóa đơn']);
+        }
+        $data=$request->all();
+        $data['updated_at']=now();
+        Bills::where('id',$id)->update($data);
+        $bill = Bills::with('details.product')->find($id);
+        $total = $bill->details->sum(function($detail) {
+            return $detail->quantity * $detail->product->price;
+        });
+        $billList = Bill_Detail::with(['product','product.gallery'])->where('hoa_don_chi_tiet.id_hoa_don',$id)->select()->get();
+        return response()->json(['check'=>true,'bill'=>$bill,'total'=>$total,'billList'=>$billList]);
     }
 
     /**

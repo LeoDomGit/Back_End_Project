@@ -9,6 +9,7 @@ use App\Traits\HasCrud;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Leo\ServicesCollections\Models\ServicesCollections;
 class ServicesController 
 {
     use HasCrud;
@@ -26,7 +27,8 @@ class ServicesController
     public function index()
     {
         $services=Services::all();
-        return Inertia::render('Services/Index',['services'=>$services]);
+        $collections=ServicesCollections::active()->select('id','name')->get();
+        return Inertia::render('Services/Index',['services'=>$services,'collections'=>$collections]);
     }
 
     /**
@@ -47,6 +49,7 @@ class ServicesController
             'price' => 'required|min:0',
             'compare_price' => 'required|min:0',
             'discount' => 'required|min:0',
+            'id_collections' => 'required|exists:service_collections,id',
             'summary' => 'required',
             'image' => 'required',
             'content' => 'required',
@@ -59,6 +62,7 @@ class ServicesController
         $data['price']=$request->price;
         $data['compare_price']=$request->compare_price;
         $data['discount']=$request->discount;
+        $data['summary']=$request->summary;
         $data['summary']=$request->summary;
         $data['content']=$request->content;
         $file=$request->file('image');
@@ -77,9 +81,9 @@ class ServicesController
      */
     public function show(Services $services,$id)
     {
-        $service=Services::find($id);
-        $services=Services::all();
-        return Inertia::render('Services/Edit',['service'=>$service,'services'=>$services]);
+        $services=Services::find($id);
+        $collections=ServicesCollections::active()->select('id','name')->get();
+        return Inertia::render('Services/Edit',['collections'=>$collections,'service'=>$services]);
     }
 
     /**

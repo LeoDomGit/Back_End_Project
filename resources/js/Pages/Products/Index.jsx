@@ -35,6 +35,7 @@ function Products({ dataproducts, databrands, datacategories }) {
                         message: "Product is updated successfully",
                     });
                     setProducts(res.data.data);
+                    console.log(res.data.data);
                 } else if (res.data.check == false) {
                     notyf.open({
                         type: "error",
@@ -307,7 +308,7 @@ function Products({ dataproducts, databrands, datacategories }) {
         <>
             <Layout>
                 <div className="row">
-                    <div className="col-md-9">
+                    <div className="col-md">
                         <div className="row">
                             <div className="col-md-2">
                                 <button
@@ -484,7 +485,7 @@ function Products({ dataproducts, databrands, datacategories }) {
                             </>
                         )}
                         {create == false && products && products.length > 0 && (
-                            <Box sx={{ height: 400, width: "100%" }}>
+                            <Box sx={{ height: 400 }}>
                                 <DataGrid
                                     rows={products}
                                     columns={columns}

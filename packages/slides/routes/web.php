@@ -4,6 +4,7 @@ use Leo\Slides\Controllers\SlidesController;
 use App\Http\Middleware\CheckLogin;
 Route::middleware(['web', CheckLogin::class])->group(function () {
     Route::resource('slides', SlidesController::class);
+    Route::post('edit-slide/{id}',[SlidesController::class,'update']);
 });
 
 Route::get('api/slides/', [SlidesController::class,'api_index']);

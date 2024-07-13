@@ -19,7 +19,7 @@ class CartController extends Controller
         ->Join('gallery','gallery.id_parent','=','products.id')
         ->where('customers.id',$id)
         ->where('gallery.status',1)
-        ->select('products.*','gallery.image as image','carts.quantity as quantity')
+        ->select('products.*','gallery.image as image','carts.id as id_cart','carts.quantity as quantity')
         ->get();
         return response()->json($carts);
     }
@@ -59,9 +59,9 @@ class CartController extends Controller
         ->Join('gallery','gallery.id_parent','=','products.id')
         ->where('customers.id',$request->id_customer)
         ->where('gallery.status',1)
-        ->select('products.*','gallery.image as image','carts.quantity as quantity')
+        ->select('products.*','gallery.image as image','carts.id as id_cart','carts.quantity as quantity')
         ->get();
-        return response()->json($carts, 201);
+        return response()->json(['check'=>true,'cart'=>$carts], 201);
     }
 
     /**
@@ -90,7 +90,7 @@ class CartController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['error' => $validator->errors()->first()], 400);
+            return response()->json(['error' => $validator->errors()], 400);
         }
 
         $cart = Carts::find($id);
@@ -113,8 +113,15 @@ class CartController extends Controller
         if (!$cart) {
             return response()->json(['error' => 'Cart not found'], 404);
         }
-
+        $id_customer=$cart->id_customer;
         $cart->delete();
-        return response()->json(['message' => 'Cart deleted successfully']);
+        $carts = Carts::join('customers','carts.id_customer','=','customers.id')
+        ->join('products','carts.id_product','=','products.id')
+        ->Join('gallery','gallery.id_parent','=','products.id')
+        ->where('customers.id',$id_customer)
+        ->where('gallery.status',1)
+        ->select('products.*','gallery.image as image','carts.id as id_cart','carts.quantity as quantity')
+        ->get();
+        return response()->json(['check'=>true,'cart'=>$carts], 201);
     }
 }

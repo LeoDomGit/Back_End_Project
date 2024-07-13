@@ -25,7 +25,7 @@ class CategoriesController extends Controller
     }
     public function api_show(Categories $categories, $id)
     {
-        return response()->json(Categories::active()->where('slug',$id)->with('products')->get());
+        return response()->json(Categories::active()->where('slug',$id)->with('products.gallery')->get());
     }
     public function create()
     {

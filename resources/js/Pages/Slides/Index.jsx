@@ -96,12 +96,15 @@ function Index({ dataSlides }) {
     formData.append('url', url);
 
     try {
-      const response = await axios.put(`/slides/${currentSlideId}`, formData, {
+      const response = await axios.post(`/edit-slide/${currentSlideId}`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
       if (response.data.check) {
         notyf.open({ type: "success", message: "Slide updated successfully" });
         setData(response.data.data);
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
         setEditMode(false);
       } else {
         notyf.open({ type: "error", message: response.data.msg });
@@ -239,15 +242,13 @@ function Index({ dataSlides }) {
                     value={slideName}
                     onChange={(e) => setSlideName(e.target.value)}
                   />
-                  {!editMode && (
-                  <button
+                   <button
                   className="btn btn-primary"
                   type="button"
                   onClick={editMode ? handleUpdate : handleSubmit}
                 >
                   {editMode ? "Update" : "Add"}
                 </button>
-                  )}
 
                 </div>
                 <label htmlFor="desktop">Desktop </label>

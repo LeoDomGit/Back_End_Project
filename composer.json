@@ -1,21 +1,20 @@
 {
-    "name": "laravel/project",
+    "name": "laravel/laravel",
     "type": "project",
-    "description": "The skeleton application for the Laravel framework.",
-    "keywords": [
-        "laravel",
-        "framework"
-    ],
+    "description": "The Laravel Framework.",
+    "keywords": ["framework", "laravel"],
     "license": "MIT",
     "require": {
-        "php": "^8.2",
-        "firebase/php-jwt": "^6.10",
+        "php": "*",
+        "beyondcode/laravel-websockets": "*",
+        "firebase/php-jwt":"*",
         "guzzlehttp/guzzle": "^7.2",
         "inertiajs/inertia-laravel": "^1.3",
-        "laravel/framework": "^11.00",
-        "laravel/sanctum": "^4.0",
-        "laravel/socialite": "^5.15",
-        "laravel/tinker": "*",
+        "laravel/socialite":"*",
+        "laravel/framework": "^10.0",
+        "laravel/sanctum": "^3.2",
+        "laravel/tinker": "^2.8",
+        "spatie/laravel-permission": "^6.9",
         "leo/brands": "*",
         "leo/categories": "*",
         "leo/permissions": "*",
@@ -26,21 +25,22 @@
         "leo/customers":"*",
         "leo/carts":"*",
         "leo/bills":"*",
+        "leo/services":"*",
+        "leo/services_collections":"*",
         "maatwebsite/excel": "*",
         "mnsami/composer-custom-directory-installer": "*",
-        "spatie/laravel-permission": "^6.7",
-        "tymon/jwt-auth": "^2.1",
-        "unisharp/laravel-filemanager": "^2.9",
+        "tymon/jwt-auth": "*",
+        "unisharp/laravel-filemanager": "*",
         "wikimedia/composer-merge-plugin": "*"
     },
     "require-dev": {
-        "fakerphp/faker": "*",
-        "laravel/pint": "*",
-        "laravel/sail": "*",
-        "mockery/mockery": "*",
-        "nunomaduro/collision": "*",
-        "phpunit/phpunit": "*",
-        "spatie/laravel-ignition": "*"
+        "fakerphp/faker": "^1.9.1",
+        "laravel/pint": "^1.0",
+        "laravel/sail": "^1.18",
+        "mockery/mockery": "^1.4.4",
+        "nunomaduro/collision": "^7.0",
+        "phpunit/phpunit": "^10.0",
+        "spatie/laravel-ignition": "^2.0"
     },
     "autoload": {
         "psr-4": {
@@ -59,8 +59,11 @@
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi"
         ],
+        "post-update-cmd": [
+            "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
+        ],
         "post-root-package-install": [
-            "@/usr/local/bin/php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
         ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
@@ -110,10 +113,16 @@
             ],
             "./plugins/bills": [
                 "leo/bills"
+            ],
+            "./plugins/services": [
+                "leo/services"
+            ],
+            "./plugins/services_collections": [
+                "leo/services_collections"
             ]
         }
     },
-    "config": {
+   "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",
         "sort-packages": true,
@@ -167,6 +176,14 @@
         {
             "type": "path",
             "url": "./packages/bills/"
+        },
+        {
+            "type": "path",
+            "url": "./packages/services/"
+        },
+        {
+            "type": "path",
+            "url": "./packages/services_collections/"
         }
     ]
 }

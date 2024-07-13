@@ -11,6 +11,20 @@ import axios from "axios";
 
 function Index({ bills }) {
     const [data, setData] = useState(bills);
+
+    const renderStatus = (params) => {
+        switch (params.value) {
+            case 0:
+                return 'Đặt hàng';
+            case 1:
+                return 'Gửi hàng';
+            case 2:
+                return 'Thành công';
+            default:
+                return '';
+        }
+    };
+
     const columns = [
         { field: 'id', headerName: 'ID', width: 70 },
         { field: 'name', headerName: 'Name', width: 200 },
@@ -22,46 +36,41 @@ function Index({ bills }) {
           field: 'status',
           headerName: 'Status',
           width: 150,
-          renderEditCell: (params) => <EditStatus {...params} />,
+          renderCell: renderStatus, // Use the custom renderer
+        },
+        {
+            headerName: "Chi tiết",
+            width: 70,
+            renderCell: (params) => (
+                <a href={'/bills/'+params.id} className="btn btn-sm btn-warning">Edit</a>
+            ),
         },
       ];
-    //   useEffect(() => {
-    //     axios.get('https://your-backend-url.com/api/bills')
-    //       .then(response => {
-    //         setBills(response.data);
-    //         setLoading(false);
-    //       })
-    //       .catch(error => {
-    //         console.error('There was an error fetching the bills!', error);
-    //         setLoading(false);
-    //       });
-    //   }, []);
+
 
     return (
         <Layout>
             <>
-            <Box sx={{ height: 400, width: "100%" }}>
-            <DataGrid
-            rows={bills}
-            columns={columns}
-            pageSize={5}
-            checkboxSelection
-            editMode="cell"
-            initialState={{
-                pagination: {
-                    paginationModel: {
-                        pageSize: 5,
-                    },
-                },
-            }}
-            pageSizeOptions={[5]}
-            disableRowSelectionOnClick
-          />
-                 
-            </Box>
+                <Box sx={{ height: 400, width: "100%" }}>
+                    <DataGrid
+                        rows={data}
+                        columns={columns}
+                        pageSize={5}
+                        checkboxSelection
+                        editMode="cell"
+                        initialState={{
+                            pagination: {
+                                paginationModel: {
+                                    pageSize: 5,
+                                },
+                            },
+                        }}
+                        pageSizeOptions={[5]}
+                        disableRowSelectionOnClick
+                    />
+                </Box>
             </>
         </Layout>
-  
     );
 }
 

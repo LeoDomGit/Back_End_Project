@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Leo\Roles\Models\Roles;
 use Spatie\Permission\Traits\HasRoles;
+use Leo\Products\Models\Products;
 
 class User extends Authenticatable  
 {
@@ -51,6 +52,11 @@ class User extends Authenticatable
     public function roles()
     {
         return $this->belongsTo(Roles::class, 'idRole');
+    }
+    
+    public function products()
+    {
+        return $this->hasMany(Products::class);
     }
 
 }

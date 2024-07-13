@@ -108,12 +108,7 @@ const renderParentSelect = (params) => {
         {
           [field]: value,
         }
-        // {
-        //     headers: {
-        //         Authorization: `Bearer ${localStorage.getItem("token")}`,
-        //         Accept: "application/json",
-        //     },
-        // }
+
       )
       .then((res) => {
         if (res.data.check == true) {

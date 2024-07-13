@@ -15,6 +15,7 @@ Route::prefix('api')->group(function () {
         Route::post('/auth/register',[CustomersController::class,'store']);
         Route::post('/auth/login',[CustomersController::class,'CheckLogin']);
         Route::post('/auth/login-email',[CustomersController::class,'CheckLogin']);
-
+        Route::get('/bills',[CustomersController::class,'get_bills'])->middleware('auth:sanctum');
+        
     });
 });

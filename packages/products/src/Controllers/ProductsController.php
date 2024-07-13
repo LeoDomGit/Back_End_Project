@@ -15,6 +15,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use Inertia\Inertia;
 use Leo\Brands\Models\Brands;
 use Leo\Categories\Models\Categories;
+use Illuminate\Support\Facades\Auth;
 
 class ProductsController extends Controller
 {
@@ -44,9 +45,7 @@ class ProductsController extends Controller
     {
         $product = $this->model::with('categories', 'brands')
             ->where('status', 1)
-
             ->where('id', $id)
-
             ->first();
         $result = Gallery::where('id_parent', $id)->pluck('image')->toArray();
         $gallery = [];
@@ -293,131 +292,70 @@ class ProductsController extends Controller
 
 
     public function switchProduct(Request $request, $identifier)
-
     {
-
         $result = Products::findOrFail($identifier);
-
         if (!$result) {
-
             return response()->json(['check' => false, 'msg' => 'Not exists']);
-
         }
-
         $old = $result->status;
-
         if ($old == 0) {
-
             Products::where('id', $identifier)->update(['status' => 1]);
-
         } else {
-
             Products::where('id', $identifier)->update(['status' => 0]);
-
         }
-
         $result = $this->model::with('categories', 'brands')->get();
-
         return response()->json(['check' => true, 'data' => $result]);
-
     }
 
     public function update(Request $request, $identifier)
-
     {
-
         $validator = Validator::make($request->all(), [
-
             'name' => 'unique:products,name',
-
             'price' => 'numeric|min:0',
-
             'discount' => 'numeric|min:0',
-
             'idCate' => 'exists:categories,id'
-
         ]);
-
-
-
         if ($validator->fails()) {
-
             return response()->json(['check' => false, 'msg' => $validator->errors()->first()]);
-
         }
-
         $data = $request->all();
-
         if ($request->name != '') {
-
             $data['slug'] = Str::slug($request->name);
-
         }
-
         $result = $this->updateTraits($this->model, $identifier, $data);
-
         if ($request->hasFile('file')) {
-
             $file = $request->file('file');
-
             $fileName = $file->getClientOriginalName();
-
             $file->storeAs('gallery', $fileName);
-
             Gallery::create([
-
                 'image' => $fileName,
-
                 'id_parent' => $result->id,
-
                 'status' => 0,
-
             ]);
-
         }
-
+        $result = $this->model::with('categories', 'brands')->get();
         return response()->json(['check' => true, 'data' => $result]);
-
     }
 
 
 
     public function destroy($identifier)
-
     {
-
         $result = $this->destroyTraits($this->model, $identifier);
-
         if (count($result) > 0) {
-
             return response()->json(['check' => true, 'result' => $result]);
-
         }
-
         return response()->json(['check' => true]);
-
     }
-
-
-
     public function import(Request $request)
-
     {
-
         if ($request->has('file')) {
-
             $file = $request->file('file');
-
             Excel::import(new ProductImport(), $file);
-
             return response()->json(['check' => true]);
-
         } else {
-
             return response()->json(['check' => false, 'msg' => 'File is required']);
-
         }
-
     }
 
     public function api_product(Request $request){
@@ -437,7 +375,23 @@ class ProductsController extends Controller
     
         }
     }
-    
+    // --------------------------------------
+    public function api_search_product($slug){
+        $result = Products::join('gallery', 'products.id', '=', 'gallery.id_parent')
+        ->where('products.status', 1)
+        ->where('gallery.status', 1)
+        ->where(function($query) use ($slug) {
+            $query->where('products.name', 'like', '%' . $slug . '%')
+                  ->orWhere('products.slug', 'like', '%' . $slug . '%');
+        })
+        ->select('products.*', 'gallery.image as image')
+        ->get();
+        if(count($result)==0){
+            return response()->json(['product'=>[]]);
+        }
+        return response()->json(['products'=>$result]);
+    }
+    // --------------------------------------
     public function api_single_product($slug){
         $result = Products::with(['brands','categories'])->where('products.slug',$slug)->where('products.status',1)->select('products.*')
                     ->first();
@@ -458,7 +412,7 @@ class ProductsController extends Controller
         ->select('products.*','gallery.image as image')
         ->take(4);
         $links = $cate_products->union($brand_products)->get();
-        return response()->json(['product'=>$result,'medias'=>$medias,'links'=>$link]);
+        return response()->json(['product'=>$result,'medias'=>$medias,'links'=>$links]);
     }   
 
     public function api_load_cart_product(Request $request){

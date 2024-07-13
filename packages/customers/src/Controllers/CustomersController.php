@@ -12,7 +12,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
 use Leo\Customers\Mail\createUser;
 use Illuminate\Support\Facades\Auth;
-
+use Leo\Bills\Models\Bills;
 
 class CustomersController 
 {
@@ -27,10 +27,23 @@ class CustomersController
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function get_bills(Request $request)
     {
-        //
+        $bills = Bills::with(['details.product'])
+        ->where('email',Auth::user()->email)
+        ->get()
+        ->map(function ($bill) {
+            $total = $bill->details->reduce(function ($carry, $detail) {
+                $productDiscount = $detail->product->discount;
+                $quantity = $detail->quantity;
+                return $carry + ($productDiscount * $quantity);
+            }, 0);
+            $bill->total = $total;
+            return $bill;
+        });
+        return response ()->json($bills);
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -58,6 +71,7 @@ class CustomersController
 
         if (Auth::guard('customer')->attempt(['email' => $request->email, 'password' => $request->password,'status'=>1], true)) {
             $customer = Auth::guard('customer')->user();
+            $customer->tokens()->delete();
             $token = $customer->createToken('CustomerToken')->plainTextToken;
             return response()->json([
                 'check' => true,

@@ -13,7 +13,7 @@ Route::middleware(['web',CheckLogin::class])->group(function () {
 Route::prefix('api')->group(function () {
     Route::prefix('carts')->group(function () {
         Route::post('/',[CartController::class,'store']);
+        Route::delete('/{id}',[CartController::class,'destroy']);
         Route::get('/{id}',[CartController::class,'index']);
-
     });
 });

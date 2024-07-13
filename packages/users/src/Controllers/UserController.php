@@ -40,7 +40,7 @@ class UserController
     public function login(Request $request){
         $request->session()->invalidate(); 
         $request->session()->regenerateToken();
-        return Inertia::render('Login/Signin');
+        return Inertia::render('Login/SignIn');
     }
 
     public function store(StoreRequest $request)
@@ -100,7 +100,7 @@ class UserController
         if ($validator->fails()) {
             return response()->json(['check'=>false,'msg'=>$validator->errors()->first()]);
         }
-        if(Auth::attempt(['name'=>$request->name,'password'=>$request->password,'status'=>1],true)){
+        if(Auth::attempt(['email'=>$request->email,'password'=>$request->password,'status'=>1],true)){
             $user = User::where('email',$request->email)->first();
             $request->session()->put('user', $user);
             $request->session()->regenerate();

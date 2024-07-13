@@ -111,7 +111,6 @@ class SlidesController
         $validator = Validator::make($request->all(), [
             'desktop' => 'image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             'mobile' => 'image|mimes:jpeg,png,jpg,gif,webp|max:2048',
-            'url' => 'nullable|url',
         ]);
         if ($validator->fails()) {
             return response()->json(['check' => false, 'msg' => $validator->errors()->first()]);
@@ -127,17 +126,12 @@ class SlidesController
             $desktop_file_name = $desktop->getClientOriginalName();
             $data['desktop']=$desktop_file_name;
             $desktop->storeAs('/public/slides', $desktop_file_name);
-
             $oldDesktop= $item->desktop;
             $oldMobile= $item->mobile;
-
             Storage::delete('public/slides/' . $oldDesktop);
             Storage::delete('public/slides/' . $oldMobile);
-        
             $mobile = $request->file('mobile');
             $desktop = $request->file('desktop');
-        
-           
         }
         
         if($request->has('name')){$data['slug']=Str::slug($request->name);}
