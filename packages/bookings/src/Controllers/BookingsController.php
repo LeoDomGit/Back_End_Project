@@ -6,6 +6,7 @@ use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use KhanhDuy\Bookings\Models\Booking;
+use Leo\Users\Models\User;
 
 class BookingsController extends Controller
 {
@@ -15,6 +16,8 @@ class BookingsController extends Controller
     public function index()
     {
         $data = Booking::with('customer', 'service', 'user')->get();
+        $user = User::active()->get();
+        dd($user);
         return Inertia::render('Bookings/Index', ['bookings' => $data]);
     }
 

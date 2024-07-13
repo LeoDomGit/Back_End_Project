@@ -9,9 +9,9 @@ use Leo\Roles\Models\Roles;
 use Spatie\Permission\Traits\HasRoles;
 use Leo\Products\Models\Products;
 
-class User extends Authenticatable  
+class User extends Authenticatable
 {
-    use HasFactory, Notifiable,HasRoles;
+    use HasFactory, Notifiable, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -48,15 +48,14 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-    
+
     public function roles()
     {
         return $this->belongsTo(Roles::class, 'idRole');
     }
-    
+
     public function products()
     {
         return $this->hasMany(Products::class);
     }
-
 }

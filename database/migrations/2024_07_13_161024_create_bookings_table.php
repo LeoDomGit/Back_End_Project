@@ -23,8 +23,8 @@ return new class extends Migration
 
         Schema::table('bookings', function (Blueprint $table) {
             $table->foreign('id_user')->references('id')->on('users')->onDelete('set null');
-            $table->foreign('id_customer')->references('id')->on('customers')->onDelete('set null');
-            $table->foreign('id_service')->references('id')->on('services')->onDelete('set null');
+            $table->foreign('id_customer')->references('id')->on('customers')->onDelete('cascade');
+            $table->foreign('id_service')->references('id')->on('services')->onDelete('cascade');
         });
     }
 
