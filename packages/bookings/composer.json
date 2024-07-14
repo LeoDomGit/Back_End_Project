@@ -1,0 +1,37 @@
+{
+    "name": "khanhduy/bookings",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Khanhduy\\Bookings\\": "src/"
+        },
+        "classmap": [
+            "src/Controllers",
+            "src/Providers",
+            "src/Models",
+            "./routes"
+        ]
+    },
+    "authors": [
+        {
+            "name": "Khanh Duy Dev",
+            "email": "khanhduytran1803@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "KhanhDuy\\Booking\\Providers\\BookingServiceProvider"
+            ]
+        }
+    },
+    "repositories": [],
+    "config": {
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "optimize-autoloader": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

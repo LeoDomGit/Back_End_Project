@@ -2,15 +2,18 @@
     "name": "laravel/laravel",
     "type": "project",
     "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
+    "keywords": [
+        "framework",
+        "laravel"
+    ],
     "license": "MIT",
     "require": {
         "php": "*",
         "beyondcode/laravel-websockets": "*",
-        "firebase/php-jwt":"*",
+        "firebase/php-jwt": "*",
         "guzzlehttp/guzzle": "^7.2",
         "inertiajs/inertia-laravel": "^1.3",
-        "laravel/socialite":"*",
+        "laravel/socialite": "*",
         "laravel/framework": "^10.0",
         "laravel/sanctum": "^3.2",
         "laravel/tinker": "^2.8",
@@ -22,11 +25,12 @@
         "leo/roles": "*",
         "leo/slides": "*",
         "leo/users": "*",
-        "leo/customers":"*",
-        "leo/carts":"*",
-        "leo/bills":"*",
-        "leo/services":"*",
-        "leo/services_collections":"*",
+        "leo/customers": "*",
+        "leo/carts": "*",
+        "leo/bills": "*",
+        "leo/services": "*",
+        "leo/services_collections": "*",
+        "khanhduy/bookings": "*",
         "maatwebsite/excel": "*",
         "mnsami/composer-custom-directory-installer": "*",
         "tymon/jwt-auth": "*",
@@ -119,10 +123,13 @@
             ],
             "./plugins/services_collections": [
                 "leo/services_collections"
+            ],
+            "./plugins/bookings": [
+                "khanhduy/bookings"
             ]
         }
     },
-   "config": {
+    "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",
         "sort-packages": true,
@@ -184,6 +191,10 @@
         {
             "type": "path",
             "url": "./packages/services_collections/"
+        },
+        {
+            "type": "path",
+            "url": "./packages/bookings/"
         }
     ]
 }
