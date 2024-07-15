@@ -18,11 +18,9 @@ class BookingController extends Controller
     public function index()
     {
         $bookings = Bookings::with(['user', 'customer', 'service'])->get();
-        // return response()->json($bookings);
         return Inertia::render('Bookings/Index', ['bookings' => $bookings]);
     }
 
-    // Store a new booking
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -57,14 +55,12 @@ class BookingController extends Controller
         return response()->json($booking, 200);
     }
 
-    // Show a single booking
     public function show($id)
     {
         $booking = Bookings::with(['user', 'customer', 'service'])->findOrFail($id);
         return response()->json($booking);
     }
 
-    // Update an existing booking
     public function update(Request $request, $id)
     {
         $request->validate([
@@ -88,7 +84,6 @@ class BookingController extends Controller
         return response()->json($booking);
     }
 
-    // Delete a booking
     public function destroy($id)
     {
         $booking = Bookings::findOrFail($id);
