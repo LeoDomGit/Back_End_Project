@@ -152,7 +152,6 @@ function Index({ bookings, services, customer }) {
 			field: "id_user",
 			headerName: "Người đặt",
 			width: 150,
-			editable: true,
 			renderCell: (params) => {
 				return params.row.user.name;
 			},
@@ -185,13 +184,16 @@ function Index({ bookings, services, customer }) {
 			field: "end_time",
 			headerName: "Thời hạn hết lịch",
 			width: 200,
-			editable: true,
 		},
 		{
 			field: "created_at",
 			headerName: "Ngày tạo",
 			width: 160,
-			editable: true,
+		},
+		{
+			field: "updated_at",
+			headerName: "Ngày thay đổi",
+			width: 160,
 		},
 		{
 			field: "action",

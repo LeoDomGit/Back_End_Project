@@ -1,108 +1,99 @@
 <?php
 
-namespace KhanhDuy\Bookings\Controllers;
+namespace Leo\Bookings\Controllers;
 
+use Carbon\Carbon;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
-use Leo\Services\Models\Services;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
-use KhanhDuy\Bookings\Models\Booking;
-use Illuminate\Support\Facades\Validator;
+use App\Events\BookingCreated;
+use Leo\Bookings\Models\Bookings;
 use Leo\Customers\Models\Customers;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
-class BookingsController extends Controller
+class BookingController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    // List all bookings
     public function index()
     {
-        $data = Booking::with('customer', 'service', 'user')->get();
-        $services = Services::active()->select('id', 'name')->get();
-        $customer = Customers::where('status', 1)->select('id', 'name')->get();
-        return Inertia::render('Bookings/Index', ['bookings' => $data, 'services' => $services, 'customer' => $customer]);
+        $bookings = Bookings::with(['user', 'customer', 'service'])->get();
+        // return response()->json($bookings);
+        return Inertia::render('Bookings/Index', ['bookings' => $bookings]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
+    // Store a new booking
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'customer' => 'required|integer|min:1',
-            'service' => 'required|integer|min:1',
-            'date' => 'required',
-            'time' => 'required',
-            'end_time' => 'required',
+            'name' => 'required|string|max:255',
+            'phone' => 'required|string|max:255',
+            'email' => 'required|email',
+            'time' => 'required|date_format:Y-m-d H:i:s',
+            'id_service' => 'required|exists:services,id',
         ]);
 
         if ($validator->fails()) {
-            return response()->json($validator->errors()->first());
+            return response()->json(['check' => false, 'msg' => $validator->errors()->first()]);
+        }
+        $customer = Customers::where('email', $request->email)->first();
+        if ($customer) {
+            $id_customer = $customer->id;
+        } else {
+            $data['name'] = $request->name;
+            $data['email'] = $request->email;
+            $data['password'] = Hash::make($request->password);
+            $id_customer = Customers::insertGetId($data);
         }
 
-        $created = Booking::create([
-            'id_user' => Auth::user()->id,
-            'id_customer' => $request->customer,
-            'id_service' => $request->service,
-            'time' => $request->date . ' ' . $request->time,
-            'end_time' => $request->date . ' ' . $request->end_time,
-            'created_at' => now(),
-            'updated_at' => now(),
+        $booking = Bookings::create([
+            'id_user' => $request->user()->id ?? null,
+            'id_customer' => $id_customer,
+            'id_service' => $request->id_service,
+            'time' => $request->time,
+            'end_time' => Carbon::parse($request->time)->addHour(),
+        ]);
+        // BookingCreated::dispatch($booking);
+        return response()->json($booking, 200);
+    }
+
+    // Show a single booking
+    public function show($id)
+    {
+        $booking = Bookings::with(['user', 'customer', 'service'])->findOrFail($id);
+        return response()->json($booking);
+    }
+
+    // Update an existing booking
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'time' => 'sometimes|required|date_format:Y-m-d H:i:s',
+            'id_service' => 'sometimes|required|exists:services,id',
         ]);
 
-        if ($created) {
-            $booking = Booking::with('customer', 'service', 'user')->get();
-            return response()->json(['check' => true, 'msg' => 'Đặt lịch thành công', 'data' => $booking]);
-        } else {
-            return response()->json(['check' => false, 'msg' => 'Đặt lịch thất bại']);
+        $booking = Bookings::findOrFail($id);
+
+        if ($request->has('time')) {
+            $booking->time = $request->time;
+            $booking->end_time = Carbon::parse($request->time)->addHour();
         }
-    }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        $booking = Booking::findOrFail($id);
-        if ($booking) {
-            $booking->delete();
-            $booking = Booking::with('customer', 'service', 'user')->get();
-            return response()->json(['check' => true, 'msg' => 'Xoá lịch thành công', 'data' => $booking]);
-        } else {
-            return response()->json(['check' => false, 'msg' => 'Xoá lịch thất bại']);
+        if ($request->has('id_service')) {
+            $booking->id_service = $request->id_service;
         }
+
+        $booking->save();
+
+        return response()->json($booking);
+    }
+
+    // Delete a booking
+    public function destroy($id)
+    {
+        $booking = Bookings::findOrFail($id);
+        $booking->delete();
+
+        return response()->json(null, 204);
     }
 }

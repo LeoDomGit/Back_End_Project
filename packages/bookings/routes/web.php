@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use KhanhDuy\Bookings\Controllers\BookingsController;
+use Leo\Bookings\Controllers\BookingController;
 
-Route::resource('api/booking', BookingsController::class)->middleware("web");
+Route::apiResource('api/bookings', BookingController::class);
+Route::apiResource('bookings', BookingController::class);

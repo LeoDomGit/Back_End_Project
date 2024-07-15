@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ab9770d7c9e56ca6f4a1833e155a365a",
+    "content-hash": "1f7df5f02432006118a8022621e6a0c0",
     "packages": [
         {
             "name": "beyondcode/laravel-websockets",
@@ -1770,46 +1770,6 @@
             "time": "2024-07-05T13:35:01+00:00"
         },
         {
-            "name": "khanhduy/bookings",
-            "version": "dev-Booking",
-            "dist": {
-                "type": "path",
-                "url": "./packages/bookings",
-                "reference": "1d615a429f4a1e971f74c1c19c76081267877408"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "KhanhDuy\\Booking\\Providers\\BookingServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Khanhduy\\Bookings\\": "src/"
-                },
-                "classmap": [
-                    "src/Controllers",
-                    "src/Providers",
-                    "src/Models",
-                    "./routes"
-                ]
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Khanh Duy Dev",
-                    "email": "khanhduytran1803@gmail.com"
-                }
-            ],
-            "transport-options": {
-                "relative": true
-            }
-        },
-        {
             "name": "laravel/framework",
             "version": "v10.48.16",
             "source": {
@@ -2956,6 +2916,54 @@
                     "src/Providers",
                     "src/Models",
                     "./routes"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dom",
+                    "email": "leodomsolar@gmail.com"
+                }
+            ],
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
+            "name": "leo/bookings",
+            "version": "dev-Booking",
+            "dist": {
+                "type": "path",
+                "url": "./packages/bookings",
+                "reference": "8e19efe560d7df0bc8939e71bf9f8232b2709d7a"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Leo\\Bookings\\Providers\\BookingsServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Leo\\Categories\\": "src/",
+                    "Leo\\Bookings\\Providers\\": "src/Providers/",
+                    "Leo\\Bookings\\Database\\Migrations\\": "database/migrations/",
+                    "Leo\\Bookings\\Database\\Seeders\\": "database/seeders/"
+                },
+                "classmap": [
+                    "src/Controllers",
+                    "src/Providers",
+                    "src/Models",
+                    "./routes"
+                ]
+            },
+            "scripts": {
+                "post-update-cmd": [
+                    "@php artisan migrate"
                 ]
             },
             "license": [
