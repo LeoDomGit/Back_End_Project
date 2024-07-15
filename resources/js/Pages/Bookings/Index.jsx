@@ -108,7 +108,6 @@ function Index({ bookings }) {
 									<Form.Label>
 										<strong>Tìm kiếm theo giá:</strong>
 									</Form.Label>
-
 									<InputGroup>
 										<Form.Control type="number" placeholder="Giá từ..." value={price} onChange={(e) => setPrice(e.target.value)} />
 										<Form.Control type="number" placeholder="Đến..." value={price1} onChange={(e) => setPrice1(e.target.value)} />
