@@ -2890,7 +2890,7 @@
         },
         {
             "name": "leo/bills",
-            "version": "dev-Booking",
+            "version": "dev-filter",
             "dist": {
                 "type": "path",
                 "url": "./packages/bills",
@@ -2933,7 +2933,7 @@
         },
         {
             "name": "leo/bookings",
-            "version": "dev-Booking",
+            "version": "dev-filter",
             "dist": {
                 "type": "path",
                 "url": "./packages/bookings",
@@ -2981,7 +2981,7 @@
         },
         {
             "name": "leo/brands",
-            "version": "dev-Booking",
+            "version": "dev-filter",
             "dist": {
                 "type": "path",
                 "url": "./packages/brands",
@@ -3029,7 +3029,7 @@
         },
         {
             "name": "leo/carts",
-            "version": "dev-Booking",
+            "version": "dev-filter",
             "dist": {
                 "type": "path",
                 "url": "./packages/carts",
@@ -3072,7 +3072,7 @@
         },
         {
             "name": "leo/categories",
-            "version": "dev-Booking",
+            "version": "dev-filter",
             "dist": {
                 "type": "path",
                 "url": "./packages/categories",
@@ -3120,7 +3120,7 @@
         },
         {
             "name": "leo/customers",
-            "version": "dev-Booking",
+            "version": "dev-filter",
             "dist": {
                 "type": "path",
                 "url": "./packages/customers",
@@ -3163,7 +3163,7 @@
         },
         {
             "name": "leo/permissions",
-            "version": "dev-Booking",
+            "version": "dev-filter",
             "dist": {
                 "type": "path",
                 "url": "./packages/permissions",
@@ -3206,7 +3206,7 @@
         },
         {
             "name": "leo/products",
-            "version": "dev-Booking",
+            "version": "dev-filter",
             "dist": {
                 "type": "path",
                 "url": "./packages/products",
@@ -3255,7 +3255,7 @@
         },
         {
             "name": "leo/roles",
-            "version": "dev-Booking",
+            "version": "dev-filter",
             "dist": {
                 "type": "path",
                 "url": "./packages/roles",
@@ -3298,7 +3298,7 @@
         },
         {
             "name": "leo/services",
-            "version": "dev-Booking",
+            "version": "dev-filter",
             "dist": {
                 "type": "path",
                 "url": "./packages/services",
@@ -3341,7 +3341,7 @@
         },
         {
             "name": "leo/services_collections",
-            "version": "dev-Booking",
+            "version": "dev-filter",
             "dist": {
                 "type": "path",
                 "url": "./packages/services_collections",
@@ -3384,7 +3384,7 @@
         },
         {
             "name": "leo/slides",
-            "version": "dev-Booking",
+            "version": "dev-filter",
             "dist": {
                 "type": "path",
                 "url": "./packages/slides",
@@ -3427,7 +3427,7 @@
         },
         {
             "name": "leo/users",
-            "version": "dev-Booking",
+            "version": "dev-filter",
             "dist": {
                 "type": "path",
                 "url": "./packages/users",
