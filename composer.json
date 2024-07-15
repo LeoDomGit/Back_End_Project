@@ -30,7 +30,7 @@
         "leo/bills": "*",
         "leo/services": "*",
         "leo/services_collections": "*",
-        "khanhduy/bookings": "*",
+        "leo/bookings": "*",
         "maatwebsite/excel": "*",
         "mnsami/composer-custom-directory-installer": "*",
         "tymon/jwt-auth": "*",
@@ -125,7 +125,7 @@
                 "leo/services_collections"
             ],
             "./plugins/bookings": [
-                "khanhduy/bookings"
+                "leo/bookings"
             ]
         }
     },

@@ -1,10 +1,13 @@
 {
-    "name": "khanhduy/bookings",
+    "name": "leo/bookings",
     "type": "library",
     "license": "MIT",
     "autoload": {
-        "psr-4": {
-            "Khanhduy\\Bookings\\": "src/"
+       "psr-4": {
+            "Leo\\Categories\\": "src/",
+            "Leo\\Bookings\\Providers\\":"src/Providers/",
+            "Leo\\Bookings\\Database\\Migrations\\":"database/migrations/",
+            "Leo\\Bookings\\Database\\Seeders\\":"database/seeders/"
         },
         "classmap": [
             "src/Controllers",
@@ -13,20 +16,25 @@
             "./routes"
         ]
     },
-    "authors": [
-        {
-            "name": "Khanh Duy Dev",
-            "email": "khanhduytran1803@gmail.com"
-        }
-    ],
     "extra": {
         "laravel": {
             "providers": [
-                "KhanhDuy\\Booking\\Providers\\BookingServiceProvider"
+                "Leo\\Bookings\\Providers\\BookingsServiceProvider"
             ]
         }
     },
-    "repositories": [],
+    "scripts": {
+        "post-update-cmd": [
+            "@php artisan migrate"
+        ]
+    },
+    "authors": [
+        {
+            "name": "Dom",
+            "email": "leodomsolar@gmail.com"
+        }
+    ],
+   "repositories": [],
     "config": {
         "preferred-install": "dist",
         "sort-packages": true,
